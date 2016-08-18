@@ -1,0 +1,24 @@
+<h1>Shipped cards on Consumer Data board</h1>
+
+<table border="1"> 
+  <tr>
+  	<th>Card Name</th>
+    <th>Number of Days</th>
+	  <th>Categories</th>
+  </tr>
+
+  <% @cards.each do |card| %>
+    <tr class=<%= cycle('even', 'odd') %>>
+      <td><%= link_to sanitize(card["name"]) %></td>
+      <td>
+        <% count = card["name"].scan(/\[(.*)\]/)[0] %>
+        <%= count[0].to_i unless count.nil?  %>
+      </td>
+      <td>
+	      <%  card["labels"].each do |label| %>
+	      	<%= label["name"] %>
+	      <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
