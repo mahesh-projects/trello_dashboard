@@ -1,7 +1,5 @@
 # trello-dashboard
-<<<<<<< HEAD
-Dashboard to visualize the percentage of stories shipped by streams
-=======
+
 Dashboard to visualize the percentage of stories shipped by themes
 
 # Purpose
@@ -17,6 +15,3 @@ So that I can list the stories categorized by themes (i.e. "Content Based Recomm
 As a consumer data team member 
 I want to view the percentage split of stories by themes
 So that I can compare the actual split to the desired split 
-
-
->>>>>>> 6362ef072ff545ce18be02c5e1bfc5291d4c89b1
