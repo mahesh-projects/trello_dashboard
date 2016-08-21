@@ -6,7 +6,7 @@
     <th>Number of Days</th>
 	  <th>Labels</th>
   </tr>
-  <%= puts @cards %>
+  
   <% @cards.each do |card| %>
     <tr>
       <td><%= sanitize(card["name"]) %></td>
