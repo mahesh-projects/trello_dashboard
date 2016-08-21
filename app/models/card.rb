@@ -18,33 +18,47 @@ class Card < ActiveRecord::Base
 	end
 
 	def self.to_csv list_id
-		#store the response in @results
-		@results = get("/#{list_id}/cards")
-		#create an empty array. this will be used to store the hashes cards
-		#each hash would contain name, days, category E.g.: {name: "make popcorn [2]", days: 2, labels: ["Popcorn", "Fun"]}
-		@cards = []
 
-		#loop through the results to extract card_name, days and category
-		@results.each do |result|
-			#Extract card name
-			name = result["name"]
-
-			#Extract the number of days from the end of the name string
-			count = result["name"].scan(/\[(.*)\]/)[0]
-			days = count[0].to_i unless count.nil?
-
-			#Initialize an empty array to store the labels
-			#Loop through the labels and push them into the array
-			labels = []
-
-			result["labels"].each do |label|
-				labels << label["name"]
-			end
-
-			#Push the hash into @cards array
-			@cards << {"name" => name, "days" => days, "labels" => labels}
-		end
-
+		@cards = call_trello(list_id)
+		
 		@cards
+	end
+
+	private
+
+	def self.call_trello list_id
+		if @cards.nil?
+			#store the response in @results
+			@results = get("/#{list_id}/cards")
+			#create an empty array. this will be used to store the hashes cards
+			#each hash would contain name, days, category E.g.: {name: "make popcorn [2]", days: 2, labels: ["Popcorn", "Fun"]}
+			@cards = []
+
+			#loop through the results to extract card_name, days and category
+			@results.each do |result|
+				#Extract card name
+				name = result["name"]
+
+				#Extract the number of days from the end of the name string
+				count = result["name"].scan(/\[(.*)\]/)[0]
+				days = count[0].to_i unless count.nil?
+
+				#Initialize an empty array to store the labels
+				#Loop through the labels and push them into the array
+				labels = []
+
+				result["labels"].each do |label|
+					labels << label["name"]
+				end
+
+				#Push the hash into @cards array
+				@cards << {"name" => name, "days" => days, "labels" => labels}
+			end
+			puts "call api"
+			@cards
+		else
+			puts "retrieve object"
+			@cards
+		end
 	end
 end
