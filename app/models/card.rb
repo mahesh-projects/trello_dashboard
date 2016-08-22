@@ -27,7 +27,9 @@ class Card < ActiveRecord::Base
 	private
 
 	def self.call_trello list_id
-		if @cards.nil?
+		Card.count
+
+		if @cards.nil? 
 			#store the response in @results
 			@results = get("/#{list_id}/cards")
 			#create an empty array. this will be used to store the hashes cards
