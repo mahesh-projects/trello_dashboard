@@ -56,3 +56,11 @@ gem 'figaro'
 gem 'mysql2', '~>0.3.13'
 
 gem 'pry'
+
+#Chartkick to display awesome charts
+gem 'chartkick', '~> 1.2.4'
+
+#Terminal commands to make life easier when dealing with data for charts
+#These require either MySQL or Postgres and will NOT work with SQLite
+gem 'groupdate', '~> 2.1.1'
+gem 'active_median', '~> 0.1.0'

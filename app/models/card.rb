@@ -60,7 +60,7 @@ class Card < ActiveRecord::Base
 				end
 
 				#Push the hash into @cards array
-				@cards << {"name" => name, "days" => days, "labels" => labels}
+				@cards << {"name" => name, "days" => days, "labels" => labels[0]}
 				
 
 				#Save the card into the Cards table
@@ -77,7 +77,7 @@ class Card < ActiveRecord::Base
 
 			puts "retrieve from table"
 			Card.all.each do |card|
-				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv}
+				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv[0] }
 			end
 			
 		end
