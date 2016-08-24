@@ -1,5 +1,6 @@
 require 'json'
 require 'httparty'
+require 'date'
 
 class Card < ActiveRecord::Base
 	include HTTParty
@@ -27,15 +28,20 @@ class Card < ActiveRecord::Base
 	private
 
 	def self.call_trello list_id
-		Card.count
 
-		if @cards.nil? 
+		#create an empty array. this will be used to store the hashes cards
+		#each hash would contain name, days, category E.g.: {name: "make popcorn [2]", days: 2, labels: ["Popcorn", "Fun"]}
+		@cards = []
+		
+
+		if Card.count == 0 || Date.today > Card.first["updated_at"]
+
+			puts "call trello"
+			
+			Card.destroy_all
 			#store the response in @results
 			@results = get("/#{list_id}/cards")
-			#create an empty array. this will be used to store the hashes cards
-			#each hash would contain name, days, category E.g.: {name: "make popcorn [2]", days: 2, labels: ["Popcorn", "Fun"]}
-			@cards = []
-
+			
 			#loop through the results to extract card_name, days and category
 			@results.each do |result|
 				#Extract card name
@@ -55,12 +61,44 @@ class Card < ActiveRecord::Base
 
 				#Push the hash into @cards array
 				@cards << {"name" => name, "days" => days, "labels" => labels}
+				
+
+				#Save the card into the Cards table
+				#Convert the labels array to comma separated string
+				
+				
+				store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv})
+
 			end
-			puts "call api"
-			@cards
+			#puts "call api"
+			
+			
 		else
-			puts "retrieve object"
-			@cards
+
+			puts "retrieve from table"
+			Card.all.each do |card|
+				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv}
+			end
+			
 		end
+		
+		@cards
+		
+	end
+
+
+	def self.store_to_db card	
+
+		newCard = Card.new
+
+		newCard.card_name = card["name"]
+		newCard.number_of_days = card["days"]
+		newCard.labels = card["labels"]
+
+		newCard.created_at = Date.today.to_s
+		newCard.updated_at = Date.today.to_s
+
+		newCard.save
+
 	end
 end

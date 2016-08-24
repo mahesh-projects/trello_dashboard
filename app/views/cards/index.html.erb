@@ -12,9 +12,7 @@
       <td><%= sanitize(card["name"]) %></td>
       <td><%= card["days"].to_i unless card["days"].nil? %></td>
       <td>
-        <% card["labels"].each do |label| %>
-          <%= label %>
-        <% end %>
+        <%= card["labels"][0] unless card["labels"].nil? %>
       </td>
     </tr>
   <% end %>
