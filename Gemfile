@@ -52,3 +52,7 @@ end
 gem 'httparty'
 
 gem 'figaro'
+
+gem 'mysql2', '~>0.3.13'
+
+gem 'pry'
