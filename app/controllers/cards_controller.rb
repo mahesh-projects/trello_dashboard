@@ -6,5 +6,9 @@ class CardsController < ApplicationController
   	#@cards = Card.for @list_id
 
   	@cards = Card.to_csv @list_id 
+  	respond_to do |format|
+	  	format.html # show.html.erb
+	  	format.json { render json: @cards }
+	 end
   end
 end
