@@ -2,23 +2,15 @@
 <h3>Shipped Cards!</h3>
 <div ng-controller="CardsCtrl">
 
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-        <input type="text" class="form-control" ng-model="$scope.query">
-      </div>      
-    </div>
-  </form>
-<!--
-    <p>
-      Sort by:
-      <select ng-model="$scope.orderDays">
-        <option value="days">Cycle Time</option>
-        <option value="labels">Labels</option>
-      </select>  
-    </p>
--->
+    <form>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" ng-model="$scope.query">
+        </div>      
+      </div>
+    </form>
+
     <table class="table table-bordered table-striped" border="1"> 
       <thead>
       <tr>
@@ -48,5 +40,6 @@
         <td>{{card.days}}</td>
         <td>{{card.labels}}</td>
       </tr>    
+    </table>
   
 </div>

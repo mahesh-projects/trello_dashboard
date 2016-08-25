@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="TrelloDashboard">
 <head>
-  <title>Dashboard</title>
+  <title>Trello Dashboard</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
   <%= stylesheet_link_tag 'http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css' %>
@@ -13,12 +13,13 @@
 <body>
 <div class="container">
 	<div class="row">
-  <div class="col-xs-6">
-    <h3>Story split by Themes</h3>
-    
-    <%= pie_chart(@cards.map{ |c|   {     (c["labels"] || "Misc" )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
+    <div class="col-xs-6">
+      <h3>Themes: Effort Split</h3>
+      
+      <%= pie_chart(@cards.map{ |c|   {     (c["labels"] || "Misc" )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
+    </div>
   </div>
-  </div>
+
 	<%= yield %>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
