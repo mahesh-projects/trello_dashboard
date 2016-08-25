@@ -1,10 +1,16 @@
-<h3>Shipped cards on Consumer Data board</h3>
 
+<h3>Shipped Cards!</h3>
 <div ng-controller="CardsCtrl">
-    <p>
-      Search:
-      <input type="text" ng-model="$scope.query" />
-    </p>  
+
+  <form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" ng-model="$scope.query">
+      </div>      
+    </div>
+  </form>
+
     <p>
       Sort by:
       <select ng-model="$scope.orderDays">
@@ -12,7 +18,8 @@
         <option value="labels">Labels</option>
       </select>  
     </p>
-    <table border="1"> 
+
+    <table class="table table-bordered table-striped" border="1"> 
       <tr>
         <th>Card Title</th>
         <th>Cycle Time</th>
