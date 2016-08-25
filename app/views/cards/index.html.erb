@@ -1,19 +1,18 @@
 <h3>Shipped cards on Consumer Data board</h3>
 
-<table border="1"> 
-  <tr>
-  	<th>Card Name</th>
-    <th>Number of Days</th>
-	  <th>Labels</th>
-  </tr>
+<div ng-controller="CardsCtrl">
+    <input type="text" ng-model="$scope.query" />
+    <table border="1"> 
+      <tr>
+        <th>Card Name</th>
+        <th>Number of Days</th>
+        <th>Labels</th>
+      </tr>
+
+      <tr ng-repeat="card in cards | filter:$scope.query">
+        <td>{{card.name}}</td>
+        <td>{{card.days}}</td>
+        <td>{{card.labels}}</td>
+      </tr>    
   
-  <% @cards.each do |card| %>
-    <tr>
-      <td><%= sanitize(card["name"]) %></td>
-      <td><%= card["days"].to_i unless card["days"].nil? %></td>
-      <td>
-        <%= card["labels"] unless card["labels"].nil? %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+</div>
