@@ -32,6 +32,7 @@
           <span ng-show="sortType == 'labels' && !sortReverse" class="fa fa-caret-down"></span>
           <span ng-show="sortType == 'labels' && sortReverse" class="fa fa-caret-up"></span>
         </th>
+        <th>Link</th>
       </tr>
       </thead>
 
@@ -39,6 +40,7 @@
         <td>{{card.name}}</td>
         <td>{{card.days}}</td>
         <td>{{card.labels}}</td>
+        <td><a ng-href="{{card.url}}">{{card.url}}</a></td>
       </tr>    
     </table>
   

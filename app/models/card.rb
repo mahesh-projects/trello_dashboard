@@ -51,6 +51,7 @@ class Card < ActiveRecord::Base
 				count = result["name"].scan(/\[(.*)\]/)[0]
 				days = count[0].to_i unless count.nil?
 
+				short_url = result["shortUrl"]
 				#Initialize an empty array to store the labels
 				#Loop through the labels and push them into the array
 				labels = []
@@ -60,27 +61,28 @@ class Card < ActiveRecord::Base
 				end
 
 				#Push the hash into @cards array
-				@cards << {"name" => name, "days" => days, "labels" => labels[0]}
+				@cards << {"name" => name, "days" => days, "labels" => labels[0], "url" => short_url}
 				
 
 				#Save the card into the Cards table
 				#Convert the labels array to comma separated string
 				
 				
-				store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv})
+				store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv, "url" => short_url})
 
 			end
 			#puts "call api"
 			
-			
+
 		else
 
 			puts "retrieve from table"
 			Card.all.each do |card|
-				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv[0] }
+				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv[0], "url" => card["short_url"]}
 			end
 			
 		end
+
 		
 		@cards
 		
@@ -94,6 +96,7 @@ class Card < ActiveRecord::Base
 		newCard.card_name = card["name"]
 		newCard.number_of_days = card["days"]
 		newCard.labels = card["labels"]
+		newCard.short_url = card["url"]
 
 		newCard.created_at = Date.today.to_s
 		newCard.updated_at = Date.today.to_s
@@ -101,4 +104,5 @@ class Card < ActiveRecord::Base
 		newCard.save
 
 	end
+
 end
