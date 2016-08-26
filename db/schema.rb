@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822104855) do
+ActiveRecord::Schema.define(version: 20160826004426) do
 
   create_table "cards", force: :cascade do |t|
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.string   "card_name"
-    t.decimal  "number_of_days"
-    t.string   "labels"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "card_name",      limit: 255
+    t.decimal  "number_of_days",             precision: 10
+    t.string   "labels",         limit: 255
+    t.string   "card_type",      limit: 255
+    t.string   "short_url",      limit: 255
   end
 
 end
