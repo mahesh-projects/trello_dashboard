@@ -51,7 +51,9 @@ class Card < ActiveRecord::Base
 				count = result["name"].scan(/\[(.*)\]/)[0]
 				days = count[0].to_i unless count.nil?
 
+				#Extract the shortUrl for each card 
 				short_url = result["shortUrl"]
+
 				#Initialize an empty array to store the labels
 				#Loop through the labels and push them into the array
 				labels = []
@@ -60,15 +62,16 @@ class Card < ActiveRecord::Base
 					labels << label["name"]
 				end
 
+				#Use the first label to classify the card
+				card_type = classify_card_type(labels[0])
+
 				#Push the hash into @cards array
-				@cards << {"name" => name, "days" => days, "labels" => labels[0], "url" => short_url}
+				@cards << {"name" => name, "days" => days, "labels" => labels[0], "url" => short_url, "card_type" => card_type}
 				
 
 				#Save the card into the Cards table
 				#Convert the labels array to comma separated string
-				
-				
-				store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv, "url" => short_url})
+				store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv, "url" => short_url, "card_type" => card_type})
 
 			end
 			#puts "call api"
@@ -78,7 +81,7 @@ class Card < ActiveRecord::Base
 
 			puts "retrieve from table"
 			Card.all.each do |card|
-				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv[0], "url" => card["short_url"]}
+				@cards << {"name" => card["card_name"], "days" => card["number_of_days"], "labels" => card["labels"].parse_csv[0], "url" => card["short_url"], "card_type" => card["card_type"]}
 			end
 			
 		end
@@ -97,12 +100,34 @@ class Card < ActiveRecord::Base
 		newCard.number_of_days = card["days"]
 		newCard.labels = card["labels"]
 		newCard.short_url = card["url"]
+		newCard.card_type = card["card_type"]
 
 		newCard.created_at = Date.today.to_s
 		newCard.updated_at = Date.today.to_s
 
 		newCard.save
 
+	end
+
+
+	def self.classify_card_type first_label
+
+		card_type = ''
+
+		case first_label
+		  when 'Consumer Segmentation', 'Content Based Rec', 'Rec Engine', 'Defect', 'Consumer Profile'
+		    card_type = 'Feature'
+		  when 'Custodianship', 'AWS'
+		    card_type = 'Custodianship'
+		  when 'Tech Debt'
+		  	card_type = 'Tech Debt'
+		  when 'production issue'
+		  	card_type = 'Production Issue'
+		  else 
+		    card_type = 'Uncategorized'
+		end 
+		
+		card_type
 	end
 
 end
