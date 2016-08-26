@@ -17,7 +17,13 @@
 <div class="container">
 	<div class="row">
     <div class="col-xs-6">
-      <h3>Themes: Effort Split</h3>
+      <h3 align="center">Feature - Custodian - Tech Debt - Prod Issue</h3>
+      
+      <%= pie_chart(@cards.map{ |c|   {     (c["card_type"] )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
+
+    </div>
+    <div class="col-xs-6">
+      <h3 align="center">Themes</h3>
       
       <%= pie_chart(@cards.map{ |c|   {     (c["labels"] || "Misc" )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
     </div>
