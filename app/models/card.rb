@@ -50,6 +50,9 @@ class Card < ActiveRecord::Base
 			#Extract the shortUrl for each card 
 			short_url = result["shortUrl"]
 
+			#Extract the dateLastActivity as the ShippedDate for each card - IT IS A HACK... REMEMBER!!
+			shipped_date = result["dateLastActivity"]
+
 			#Initialize an empty array to store the labels
 			#Loop through the labels and push them into the array
 			labels = []
@@ -62,12 +65,12 @@ class Card < ActiveRecord::Base
 			card_type = classify_card_type(labels[0])
 
 			#Push the hash into @cards array
-			@cards << {"name" => name, "days" => days, "labels" => labels[0], "url" => short_url, "card_type" => card_type}
+			@cards << {"name" => name, "days" => days, "labels" => labels[0], "url" => short_url, "card_type" => card_type, "shipped_date" => shipped_date}
 			
 
 			#Save the card into the Cards table
 			#Convert the labels array to comma separated string
-			store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv, "url" => short_url, "card_type" => card_type})
+			store_to_db({"name" => name, "days" => days, "labels" => labels.to_csv, "url" => short_url, "card_type" => card_type, "shipped_date" => shipped_date})
 
 		end
 		@cards
@@ -96,6 +99,7 @@ class Card < ActiveRecord::Base
 		newCard.labels = card["labels"]
 		newCard.short_url = card["url"]
 		newCard.card_type = card["card_type"]
+		newCard.shipped_date = card["shipped_date"]
 
 		newCard.created_at = Date.today.to_s
 		newCard.updated_at = Date.today.to_s
