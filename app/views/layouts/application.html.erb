@@ -10,7 +10,27 @@
   <%= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' %>
   <%= csrf_meta_tags %>
 </head>
+<!--Trello Client.js for authentication-->
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<!--<script src="https://api.trello.com/1/client.js?key=ENV['TRELLO_API_KEY']"></script>-->
+<%= javascript_include_tag "https://api.trello.com/1/client.js?key=#{ENV['TRELLO_API_KEY']}"%>
 <body>
+<script>
+
+  var authenticationSuccess = function() { console.log('Successful authentication'); };
+  var authenticationFailure = function() { console.log('Failed authentication'); };
+
+  Trello.authorize({
+  type: 'redirect',
+  name: 'Getting Started Application',
+  scope: {
+    read: 'true',
+    write: 'true' },
+  expiration: 'never',
+  success: authenticationSuccess,
+  error: authenticationFailure
+});
+</script>
 <div class="page-header" align="center">
   <h1>Trello Dashboard   <small>Consumer Data</small></h1>
 </div>
@@ -18,13 +38,13 @@
 	<div class="row">
     <div class="col-xs-6">
       <h3 align="center">Effort Split<br/><small>Feature - Custodian - Tech Debt - Prod Issue</small></h3>
-      
+
       <%= pie_chart(@cards.map{ |c|   {     (c["card_type"] )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
 
     </div>
     <div class="col-xs-6">
       <h3 align="center">Effort Split<br/><small>By Themes</small></h3>
-      
+
       <%= pie_chart(@cards.map{ |c|   {     (c["labels"] || "Misc" )    =>   ( c["days"] || 0  )    } }.inject{ |a,b| a.merge(b){|k, oldV, newV| oldV + newV   }  }) %>
     </div>
   </div>
